@@ -1,0 +1,78 @@
+#!/bin/bash
+check=1
+randomCheck=$((RANDOM%2))
+headValue=0
+tailValue=0
+count=1
+declare -a times
+declare -a timesTriplet
+declare -A singlet
+declare -A doublet
+declare -A triplet
+while [ $count -gt 0 ]
+do
+     for ((i=1; i<=5; i++))
+     do
+         if [ $check -eq $randomCheck ]
+         then
+              headValue=$(($headValue+1))
+              singlet[$(($i+1))]=$headValue
+         else
+              tailValue=$(($tailValue+1))
+              singlet[$(($i+1))]=$tailValue
+         fi
+      ((count++))
+    done
+done
+echo "${singlet[@]}"
+singlet_percentage=$(((1/2)*100))
+for ((i=0; i<360000; i++))
+do
+        a=$(((RANDOM%6)+1))
+        b=$(((RANDOM%6)+1))
+        sum=$(($a+$b))
+done
+for ((i=1; i<=11; i++))
+do
+    doublet[$(($i+1))]=$(doublet[$i])
+done
+echo "${double[@]}"
+double_percentage=$(((1/6)*100))
+for ((i=0; i<360000; i++))
+do
+      a=$(((RANDOM%6)+1))
+      b=$(((RANDOM%6)+1))
+      c=$(((RANDOM%6)+1))
+      total=$(($a+$b+$c))
+      triplet[$(($i+1))]=$((triplet[$total-2]+1))
+done
+for ((i=1; i<=11; i++))
+do
+    triplet[$(($i+1))]=$(triplet[$i])
+done
+echo "${triplet[@]}"
+triplet_percentage=$(((1/36)*100))
+if [ $single_percentage -gt $double_percentage ]
+then
+    percentage=$singlet_percentage
+    lower=$doublet_percentage
+else
+    percentage=$doublet_percentage
+    lower=$singlet_percentage
+fi
+if [ $percentage -gt $triplet_percentage ]
+then
+       higher=$percentage
+       if [ $lower -gt $triplet_percentage ]
+       then
+           percentage=$lower
+           lower=$triplet_percentage
+       else
+           percentage=$triplet_percentage
+       fi
+else 
+       higher=$triplet_percentage
+fi
+echo "$higher winning combination is in first place"
+echo "$percentage winning combination is in second place"
+echo "$lower winning combination is in third place"
